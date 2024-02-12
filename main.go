@@ -1,7 +1,6 @@
 package main
 
 import (
-	// "errors"
 	"errors"
 	"fmt"
 	"reflect"
@@ -62,13 +61,14 @@ func merge(a, b interface{}) (interface{}, error) {
 
 func main() {
 	a := []interface{}{6, 7, 8, []int{8, 9}, []interface{}{"a", "xfy", 20.0}}
-	// a = nil
-	// b := 42
 	b := []interface{}{1, 2, 3, 5, []int{3, 4}, []interface{}{true, "abh", 2}}
-	// b = nil
+	
 	merged, err := merge(a, b)
+	// merged, err := merge(nil, nil)
 	if err != nil {
-		panic(err)
+		fmt.Println("Error: ",err)
+		return
 	}
-	fmt.Printf("%v",merged)
+	fmt.Printf("\nSlice a : %v\nSlice b : %v", a, b)
+	fmt.Printf("\nMerged Slice : %v\n\n",merged)
 }
