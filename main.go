@@ -10,7 +10,6 @@ func merge(a, b interface{}) (interface{}, error) {
 	if a == nil && b == nil {
 		return nil, errors.New("both arguments are nil")
 	}
-
 	if a == nil {
 		return b, nil
 	}
@@ -20,19 +19,16 @@ func merge(a, b interface{}) (interface{}, error) {
 
 	var res []interface{}
 
-	// Append value of 'a' to the result
-	// result = append(result, a)
 	if reflect.TypeOf(a).Kind() == reflect.Slice {
 		slice := reflect.ValueOf(a)
 		for i := 0; i < slice.Len(); i++ {
-			// fmt.Println(reflect.ValueOf(slice.Index(i).Interface()).Kind())
-			if reflect.ValueOf(slice.Index(i).Interface()).Kind() == reflect.Slice {
-				nestedSlice, err := merge(res, slice.Index(i).Interface())
+			if reflect.ValueOf(slice.Index(i).Interface()).Kind() == reflect.Slice { // if slice have nested slice
+				nestedSlice, err := merge(res, slice.Index(i).Interface()) // recursive call for nested slice
 				if err != nil {
 					panic(err)
 				}
 				res = nestedSlice.([]interface{})
-			} else {
+			} else { // if slice item is not slice then append to res directly
 				res = append(res, slice.Index(i).Interface())
 			}
 		}
